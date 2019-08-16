@@ -1,9 +1,11 @@
 import React from 'react'
 import './App.css'
 
-import Header from './Components/Header/Header.jsx'
-import Homepage from './Pages/Homepage/Homepage.jsx'
-import ShopPage from './Pages/Shop/Shop.jsx'
+import Header from './Components/Header/Header'
+import Homepage from './Pages/Homepage/Homepage'
+import ShopPage from './Pages/Shop/Shop'
+import SignPage from './Pages/Sign/Sign'
+
 import { Switch, Route } from 'react-router-dom'
 
 function App () {
@@ -13,6 +15,7 @@ function App () {
       <Switch>
         <Route exact path='/' component={Homepage} />
         <Route exact path='/shop' component={ShopPage} />
+        <Route exact path='/signin' component={SignPage} />
       </Switch>
     </div>
   )
