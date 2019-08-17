@@ -2,6 +2,8 @@ import React from 'react'
 import FormInput from '../FormInput/FormInput'
 import CustomButton from '../CustomButton/CustomButton'
 import './SignIn.scss'
+
+import { signInWithGoogle } from '../../firebase/firebase.utils'
 class SignIn extends React.Component {
   constructor () {
     super()
@@ -47,7 +49,10 @@ class SignIn extends React.Component {
             required
             handleChange={this.handleChange}
           />
-          <CustomButton type='submit'>送出</CustomButton>
+          <div className='buttons'>
+            <CustomButton type='submit'>送出</CustomButton>
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>透過google帳號登入</CustomButton>
+          </div>
         </form>
       </div>
     )
