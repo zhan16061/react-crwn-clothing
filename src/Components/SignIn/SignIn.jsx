@@ -1,6 +1,6 @@
 import React from 'react'
 import FormInput from '../FormInput/FormInput'
-
+import CustomButton from '../CustomButton/CustomButton'
 import './SignIn.scss'
 class SignIn extends React.Component {
   constructor () {
@@ -31,9 +31,23 @@ class SignIn extends React.Component {
         <span>透過您的帳號與密碼登入</span>
 
         <form onSubmit={this.handleSubmit}>
-          <FormInput lable='信箱' name='email' type='email' value={this.state.email} required handleChange={this.handleChange} />
-          <FormInput lable='密碼' name='password' type='password' value={this.state.password} required handleChange={this.handleChange} />
-          <input type='button' value='送出' />
+          <FormInput
+            lable='信箱'
+            name='email'
+            type='email'
+            value={this.state.email}
+            required
+            handleChange={this.handleChange}
+          />
+          <FormInput
+            lable='密碼'
+            name='password'
+            type='password'
+            value={this.state.password}
+            required
+            handleChange={this.handleChange}
+          />
+          <CustomButton type='submit'>送出</CustomButton>
         </form>
       </div>
     )
