@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 import './Header.scss'
 
 const Header = ({ currentUser }) => {
-  console.log('currentUser:', currentUser)
   return (
     <div className='header'>
       <Link className='logo-container' to='/'>
