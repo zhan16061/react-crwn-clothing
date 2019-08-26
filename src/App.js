@@ -9,7 +9,7 @@ import SignPage from './Pages/Sign/Sign'
 import { auth, createUser } from './firebase/firebase.utils'
 
 import { setCurrentUser } from './redux/user/user.actions'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -19,6 +19,7 @@ class App extends React.Component {
     const { setCurrentUser } = this.props
     this.unsubcriberFromAuth = auth.onAuthStateChanged(async userAuth => {
       if(!userAuth) {
+        setCurrentUser(null)
         return
       }
       const userRef = await createUser(userAuth)
@@ -42,15 +43,27 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={Homepage} />
           <Route exact path='/shop' component={ShopPage} />
-          <Route exact path='/sign' component={SignPage} />
+          <Route
+            exact
+            path='/sign'
+            render={
+              () => this.props.currentUser
+                ? <Redirect to='/' />
+                : <SignPage />
+            }
+          />
         </Switch>
       </div>
     )
   }
 }
 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+})
+
 const mapActionsToProps =  dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
-export default connect(null, mapActionsToProps)(App)
+export default connect(mapStateToProps, mapActionsToProps)(App)

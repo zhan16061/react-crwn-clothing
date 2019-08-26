@@ -58,8 +58,8 @@ class SignIn extends React.Component {
             handleChange={this.handleChange}
           />
           <div className='buttons'>
-            <CustomButton type='submit'>送出</CustomButton>
-            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>透過google帳號登入</CustomButton>
+            <CustomButton type='submit' >送出</CustomButton>
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn >透過google帳號登入</CustomButton>
           </div>
         </form>
       </div>
