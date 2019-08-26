@@ -2,7 +2,7 @@ import React from 'react'
 import { auth } from '../../../src/firebase/firebase.utils'
 
 import { connect } from 'react-redux'
-
+import CartIcon from '../CartIcon/CartIcon'
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 import { Link } from 'react-router-dom'
 import './Header.scss'
@@ -21,6 +21,7 @@ const Header = ({ currentUser }) => {
             ? <div className='option' onClick={() => auth.signOut()} >登出</div>
             : <Link className='option' to='/sign' >登入</Link>
         }
+        <CartIcon />
       </div>
     </div>
   )
