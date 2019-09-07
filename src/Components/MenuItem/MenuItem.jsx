@@ -11,7 +11,7 @@ const MenuItem = (props) => {
     >
       <div
         className='background-image'
-        style={{backgroundImage: `url(${imageUrl})`}}
+        style={{ backgroundImage: `url(${imageUrl})` }}
       />
       <div className='content'>
         <h1 className='title'>{title.toUpperCase()}</h1>
