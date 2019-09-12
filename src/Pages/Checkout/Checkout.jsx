@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect'
 
 import CheckoutItem from '../../Components/CheckoutItem/CheckoutItem'
 import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selector'
+import StripeCheckoutButton from '../../Components/StripeButton/StripeButton'
 
 import './Checkout.scss'
 
@@ -29,9 +30,13 @@ const Checkout = ({ cartItems, total, dispatch }) => (
     {
       cartItems.map(item => <CheckoutItem key={item.id} cartItem={item} />)
     }
-    <div className='total'>
-      <span>總和: ${total}</span>
+    <div className='total'>總和: ${total}</div>
+    <div className='test-warning'>
+      *請使用測試信用卡帳號*
+      <br />
+      4242 4242 4242 4242 Exp: 01/20 - CVV: 123
     </div>
+    <StripeCheckoutButton price={total} />
   </div>
 )
 
