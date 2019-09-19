@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
-import './Header.scss'
+
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './HeaderStyle'
 
 import { auth } from '../../../src/firebase/firebase.utils'
 import CartIcon from '../CartIcon/CartIcon'
@@ -14,22 +14,22 @@ import { ReactComponent as Logo } from '../../assets/crown.svg'
 
 const Header = ({ currentUser, hidden }) => {
   return (
-    <div className='header'>
-      <Link className='logo-container' to='/'>
+    <HeaderContainer >
+      <LogoContainer to='/'>
         <Logo className='logo' />
-      </Link>
-      <div className='options'>
-        <Link className='option' to='/shop'>SHOP</Link>
-        <Link className='option' to='/shop'>CONTACT</Link>
+      </LogoContainer>
+      <OptionsContainer>
+        <OptionLink to='/shop'>SHOP</OptionLink>
+        <OptionLink to='/shop'>CONTACT</OptionLink>
         {
           currentUser
-            ? <div className='option' onClick={() => auth.signOut()}>登出</div>
-            : <Link className='option' to='/sign'>登入</Link>
+            ? <OptionDiv onClick={() => auth.signOut()}>登出</OptionDiv>
+            : <OptionLink to='/sign'>登入</OptionLink>
         }
         <CartIcon />
-      </div>
+      </OptionsContainer>
       {hidden ? null : <CartDropdown />}
-    </div>
+    </HeaderContainer>
   )
 }
 
