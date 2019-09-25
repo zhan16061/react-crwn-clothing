@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './HeaderStyle'
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink } from './HeaderStyle'
 
 import { auth } from '../../../src/firebase/firebase.utils'
 import CartIcon from '../CartIcon/CartIcon'
@@ -23,7 +23,7 @@ const Header = ({ currentUser, hidden }) => {
         <OptionLink to='/shop'>CONTACT</OptionLink>
         {
           currentUser
-            ? <OptionDiv onClick={() => auth.signOut()}>登出</OptionDiv>
+            ? <OptionLink as='div' onClick={() => auth.signOut()}>登出</OptionLink>
             : <OptionLink to='/sign'>登入</OptionLink>
         }
         <CartIcon />
