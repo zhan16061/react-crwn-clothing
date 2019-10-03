@@ -43,15 +43,15 @@ export const firestore = firebase.firestore()
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged(userAuth =>{
-      unsubscribe();
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe()
       resolve(userAuth)
     }, reject)
   })
 }
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   try {
-    const collectionRef = firestore.collection(collectionKey);
+    const collectionRef = firestore.collection(collectionKey)
 
     const batch = firestore.batch()
     objectsToAdd.forEach(obj => {
