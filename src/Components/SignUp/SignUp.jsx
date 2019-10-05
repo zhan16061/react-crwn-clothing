@@ -1,10 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import FormInput from '../FormInput/FormInput'
 import CustomButton from '../CustomButton/CustomButton'
 
-import { auth, createUser } from '../../firebase/firebase.utils'
-
+import { signUpStart } from '../../redux/user/user.actions'
 import './SignUp.scss'
 
 class SignUp extends React.Component {
@@ -21,28 +21,21 @@ class SignUp extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault()
-
+    const { signUpStart } = this.props
     const { password, email, confirmPassword, displayName } = this.state
 
     if(password !== confirmPassword) {
       alert('密碼輸入不正確')
       return
     }
+    signUpStart({ email, password, displayName })
 
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(email, password)
-      await createUser(user, { displayName })
-
-      this.setState({
-        email: '',
-        password: '',
-        confirmPassword: '',
-        displayName: ''
-      })
-      alert('註冊成功')
-    } catch (error) {
-      alert(error.message)
-    }
+    this.setState({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      displayName: ''
+    })
   }
 
   handleChange = event => {
@@ -98,4 +91,8 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp
+const mapActionsToProps = dispatch => ({
+  signUpStart: userCredrntials => dispatch(signUpStart(userCredrntials))
+})
+
+export default connect(null, mapActionsToProps)(SignUp)

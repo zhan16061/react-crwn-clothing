@@ -1,12 +1,19 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects'
 
-import { signInSuccess, signInFailure, signOutSuccess, signOutFailure } from './user.actions'
+import {
+  signInSuccess,
+  signInFailure,
+  signOutSuccess,
+  signOutFailure,
+  signUpFailure,
+  signUpSuccess
+} from './user.actions'
 import userActionTypes from './user.types'
 import { auth, googleProvider, createUser, getCurrentUser } from '../../firebase/firebase.utils'
 
-export function * getSnapShotFromUserAuth (userAuth) {
+export function * getSnapShotFromUserAuth (userAuth, additionalData) {
   try {
-    const userRef = yield call(createUser, userAuth)
+    const userRef = yield call(createUser, userAuth, additionalData)
     const userSnapshot = yield userRef.get()
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
   } catch (error) {
@@ -24,6 +31,21 @@ function * signOut () {
     yield put(signOutFailure())
   }
 }
+
+function * signUp ({ payload: { email, password, displayName } }) {
+  try {
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password)
+    yield put(signUpSuccess({ user, additionalData: { displayName } }))
+  } catch (error) {
+    console.error('signUp error:', error)
+    yield put(signUpFailure())
+    window.alert('signUp error:', error.message)
+  }
+}
+function * singInAfterSignUp ({ payload: { user, additionalData } }) {
+  yield getSnapShotFromUserAuth(user, additionalData)
+}
+
 function * signInWithGoogle () {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider)
@@ -36,10 +58,6 @@ function * signInWithGoogle () {
 
 function * signInWithEmail ({ payload: { email, password } }) {
   try {
-    // const t1 = yield () => new Promise(resolve => resolve('t1'))
-    // console.log('t1:', t1)
-    // const t2 = yield call(() => new Promise(resolve => resolve('t2')))
-    // console.log('t2:', t2)
     // const aaa = yield call(auth.signInWithEmailAndPassword, email, password) not work
     const { user } = yield auth.signInWithEmailAndPassword(email, password)
     yield getSnapShotFromUserAuth(user)
@@ -76,11 +94,21 @@ export function * onSignOutStart () {
   yield takeLatest(userActionTypes.SIGN_OUT_START, signOut)
 }
 
+export function * onSignUpStart () {
+  yield takeLatest(userActionTypes.SIGN_UP_START, signUp)
+}
+
+function * onSignUpSuccess () {
+  yield takeLatest(userActionTypes.SIGN_UP_SUCCESS, singInAfterSignUp)
+}
+
 export function * userRootSagas () {
   yield all([
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
     call(onCheckUserSession),
-    call(onSignOutStart)
+    call(onSignOutStart),
+    call(onSignUpStart),
+    call(onSignUpSuccess)
   ])
 }

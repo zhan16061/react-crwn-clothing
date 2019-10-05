@@ -11,12 +11,12 @@ const config = {
   messagingSenderId: '771376045836',
   appId: '1:771376045836:web:dd3471e99f92106f'
 }
-export const createUser = async (userAuth, additionData) => {
+export const createUser = async (userAuth, additionData = {}) => {
+
   if (!userAuth) return
   const userRef = firestore.doc(`users/${userAuth.uid}`)
 
   const userSnapShot = await userRef.get()
-
   if (userSnapShot.exists) return userRef
 
   const { displayName, email } = userAuth
