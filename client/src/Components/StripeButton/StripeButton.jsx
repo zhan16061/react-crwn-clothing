@@ -1,13 +1,25 @@
 import React from 'react'
 import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios'
 
 const StripeCheckoutButton = ({ price }) => {
   const priceForStripe = price * 100
   const publishableKey = 'pk_test_ZOOkKJJlr5Th1sQqNZXijWIR00UiyXDmso'
 
   const onToken = token => {
-    console.log(token)
-    alert('付款成功')
+    axios({
+      url: 'payment',
+      method: 'post',
+      data: {
+        amount: priceForStripe,
+        token
+      }
+    }).then(response => {
+      window.alert('Payment successful.')
+    }).catch(error => {
+      console.log('Payment error:', error)
+      window.alert('Patment fail.')
+    })
   }
   return (
     <StripeCheckout
